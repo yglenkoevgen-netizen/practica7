@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Форма Підписки на Розсилку</title>
     <style>
-        /* ------------------- */
-        /* Базові стилі та фон */
-        /* ------------------- */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -15,12 +12,9 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #F8BBD0; /* Рожевий фон з Desktop 1.jpg */
+            background-color: #F8BBD0;
         }
 
-        /* ------------------- */
-        /* Стилі картки-контейнера */
-        /* ------------------- */
         .card-container {
             background-color: white;
             border-radius: 20px;
@@ -32,9 +26,6 @@
             box-sizing: border-box;
         }
 
-        /* ------------------- */
-        /* Стилі секції з іконкою @ */
-        /* ------------------- */
         .header-image {
             width: 100%;
             height: auto;
@@ -46,7 +37,6 @@
         .header-image img {
             width: 100%;
             display: block;
-            /* Зображення з Desktop 1.jpg має відношення 400x160 приблизно, тому обріжемо */
             max-height: 160px; 
             object-fit: cover;
             object-position: center;
@@ -64,9 +54,6 @@
             margin-bottom: 30px;
         }
         
-        /* ------------------- */
-        /* Стилі форми */
-        /* ------------------- */
         .form-group {
             margin-bottom: 10px;
         }
@@ -81,11 +68,11 @@
         }
 
         .error-message {
-            color: #FF69B4; /* Рожевий колір помилки з Desktop - validation error.jpg */
+            color: #FF69B4;
             font-size: 12px;
             text-align: left;
             margin-top: 5px;
-            display: none; /* Початково приховано */
+            display: none;
         }
 
         #subscribe-btn {
@@ -105,15 +92,11 @@
             background-color: #333;
         }
         
-        /* Стиль для невалідної форми (з Desktop - validation error.jpg) */
         .invalid-input {
             border: 1px solid #FF69B4 !important;
-            background-color: #FFF0F5; /* Дуже світлий рожевий фон */
+            background-color: #FFF0F5;
         }
 
-        /* ------------------- */
-        /* Стилі Dialog Success */
-        /* ------------------- */
         dialog {
             border: none;
             padding: 0;
@@ -130,12 +113,11 @@
             text-align: center;
         }
         
-        /* Іконка успіху (обведена картинка хлопушки) */
         .success-icon-wrapper {
             width: 70px;
             height: 70px;
             border-radius: 50%;
-            background-color: #FEEEDD; /* Світло-жовтий колір з Desktop - success.jpg */
+            background-color: #FEEEDD;
             margin: 0 auto 20px;
             display: flex;
             justify-content: center;
@@ -143,7 +125,7 @@
         }
 
         .success-icon-wrapper img {
-            width: 40px; /* Розмір самої іконки */
+            width: 40px;
             height: 40px;
             object-fit: contain;
         }
@@ -170,7 +152,6 @@
             margin-top: 20px;
         }
 
-        /* Стиль для затемнення фону при відкритому dialog */
         dialog::backdrop {
             background: rgba(0, 0, 0, 0.5);
         }
@@ -180,7 +161,7 @@
 
     <div id="subscription-form" class="card-container">
         <div class="header-image">
-            <img src="P7. Subscription form.zip/P7. Signup form/assets/philip-oroni-7rMD7zh5SKo-unsplash.jpg" alt="Email Icon">
+            <img src="philip-oroni-7rMD7zh5SKo-unsplash.jpg" alt="Email Icon">
         </div>
         <h1>Subscribe to our Newsletter</h1>
         <p>Join thousands getting emails in their inbox.</p>
@@ -206,7 +187,7 @@
     <dialog id="success-dialog">
         <div class="success-content">
             <div class="success-icon-wrapper">
-                <img src="P7. Subscription form.zip/P7. Signup form/assets/Icon.png" alt="Success Icon">
+                <img src="Icon.png" alt="Success Icon">
             </div>
             <div class="success-message">
                 Your subscription has been placed for your <span id="dialog-email" class="subscribed-email"></span>!
@@ -218,7 +199,6 @@
     </dialog>
 
     <script>
-        // DOM Елементи
         const emailForm = document.getElementById('email-form');
         const emailInput = document.getElementById('email-input');
         const emailError = document.getElementById('email-error');
@@ -226,62 +206,36 @@
         const successDialog = document.getElementById('success-dialog');
         const dialogEmail = document.getElementById('dialog-email');
         const successBtn = document.getElementById('success-btn');
-
-        // Регулярний вираз для валідації email
-        // ^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$
         const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-
-        /**
-         * Валідує email за допомогою регулярного виразу.
-         * @param {string} email - Email для перевірки.
-         * @returns {boolean} - true, якщо email валідний, false - ні.
-         */
         function validateEmail(email) {
             return emailRegex.test(email);
         }
 
-        // Обробник подачі форми
         emailForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Запобігаємо стандартній подачі форми
+            e.preventDefault();
             
             const emailValue = emailInput.value.trim();
             const isValid = validateEmail(emailValue);
 
             if (isValid) {
-                // 1. Успішна валідація
-                
-                // Очищаємо всі стани помилки
                 emailInput.classList.remove('invalid-input');
                 emailError.style.display = 'none';
-                
-                // 2. Оновлюємо діалог успіху
                 dialogEmail.textContent = emailValue;
-                
-                // 3. Ховаємо форму та показуємо діалог
                 subscriptionForm.style.display = 'none';
-                successDialog.showModal(); // Відкриваємо модальний діалог
-
+                successDialog.showModal();
             } else {
-                // 1. Помилка валідації
-                
-                // Відображаємо візуальні ознаки помилки (як у Desktop - validation error.jpg)
                 emailInput.classList.add('invalid-input');
                 emailError.style.display = 'block';
             }
         });
 
-        // Обробник кнопки "Thanks!" у діалозі
         successBtn.addEventListener('click', function() {
-            successDialog.close(); // Закриваємо діалог
-            
-            // Скидаємо стан форми та знову її показуємо (або можна перенаправити користувача)
-            emailForm.reset(); // Очищаємо поле
-            subscriptionForm.style.display = 'block'; // Знову показуємо форму
-            
-            // Якщо потрібно, щоб після успіху форма просто залишалася невидимою 
-            // до перезавантаження сторінки, просто видаліть рядок вище.
+            successDialog.close();
+            emailForm.reset();
+            subscriptionForm.style.display = 'block';
         });
 
     </script>
 </body>
+
 </html>
